@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wolfpack 101 | Cub Scout Adventure Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Merriweather:wght@400;700&family=Permanent+Marker&display=swap');
+:root{--gold:#D4A017;--gold-light:#F0C040;--gold-dark:#A07810;--navy:#1A2332;--navy-light:#243044;--red:#C0392B;--green:#27AE60;--brown:#5D4037;--cream:#FFF8E7;--wolf-blue:#2E86C1;--wolf-blue-light:#5DADE2}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Merriweather',Georgia,serif;background:var(--navy);color:var(--cream);min-height:100vh;overflow-x:hidden}
+
+/* ===== LOGIN ===== */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(170deg,var(--navy) 0%,#0D1520 40%,var(--brown) 120%);position:relative;overflow:hidden;padding:20px}
+#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 30% 20%,rgba(212,160,23,0.06) 0%,transparent 70%),radial-gradient(ellipse 500px 500px at 70% 80%,rgba(93,64,55,0.1) 0%,transparent 70%);pointer-events:none}
+#loginScreen::after{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 45% 10%,rgba(255,255,255,0.5) 0%,transparent 100%),radial-gradient(1px 1px at 75% 20%,rgba(255,255,255,0.35) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 85% 55%,rgba(255,255,255,0.4) 0%,transparent 100%),radial-gradient(1px 1px at 15% 70%,rgba(255,255,255,0.3) 0%,transparent 100%),radial-gradient(1px 1px at 90% 75%,rgba(255,255,255,0.35) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 30% 90%,rgba(255,255,255,0.4) 0%,transparent 100%);pointer-events:none;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.6}100%{opacity:1}}
+.login-box{background:rgba(26,35,50,0.95);border:2px solid var(--gold-dark);border-radius:20px;padding:40px 28px;max-width:380px;width:100%;text-align:center;position:relative;z-index:1;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(212,160,23,0.08)}
+.login-badge{width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);background:var(--navy);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:50px;box-shadow:0 0 30px rgba(212,160,23,0.25)}
+.login-box h1{font-family:'Permanent Marker',cursive;font-size:2em;color:var(--gold);text-shadow:2px 2px 0 rgba(0,0,0,0.5);letter-spacing:2px;margin-bottom:4px}
+.login-box h2{font-family:'Oswald',sans-serif;font-weight:400;font-size:.85em;color:var(--cream);opacity:.6;text-transform:uppercase;letter-spacing:3px;margin-bottom:6px}
+.login-sub{font-size:.78em;color:rgba(255,248,231,0.5);margin-bottom:24px;font-family:'Oswald',sans-serif;letter-spacing:1px}
+.login-field{position:relative;margin-bottom:16px;text-align:left}
+.login-field label{display:block;font-family:'Oswald',sans-serif;font-size:.75em;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:6px}
+.login-field input{width:100%;padding:14px 44px 14px 16px;background:rgba(255,255,255,0.05);border:2px solid rgba(212,160,23,0.25);border-radius:10px;color:var(--cream);font-family:'Merriweather',Georgia,serif;font-size:1em;outline:none;transition:all .3s}
+.login-field input:focus{border-color:var(--gold);background:rgba(255,255,255,0.08);box-shadow:0 0 15px rgba(212,160,23,0.15)}
+.login-field input::placeholder{color:rgba(255,248,231,0.25);font-style:italic}
+.pw-toggle{position:absolute;right:12px;top:36px;background:none;border:none;color:rgba(255,248,231,0.4);cursor:pointer;font-size:1.2em;padding:4px;line-height:1}
+.pw-toggle:hover{color:var(--gold)}
+.login-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));border:none;border-radius:12px;color:var(--navy);font-family:'Oswald',sans-serif;font-size:1.1em;font-weight:700;text-transform:uppercase;letter-spacing:3px;cursor:pointer;transition:all .3s;margin-top:8px}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,23,0.35)}
+.login-error{display:none;background:rgba(192,57,43,0.15);border:1px solid var(--red);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:.82em;color:#E74C3C;font-family:'Oswald',sans-serif;animation:shake .5s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.login-foot{margin-top:24px;font-size:.65em;color:rgba(255,248,231,0.3);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px}
+.login-link{margin-top:14px;font-size:.72em}.login-link a{color:var(--gold-dark);text-decoration:none}
+
+/* ===== APP ===== */
+#appWrapper{display:none}
+.hero{background:linear-gradient(170deg,var(--navy) 0%,var(--navy-light) 40%,var(--brown) 100%);padding:20px 16px 16px;text-align:center;border-bottom:4px solid var(--gold);position:relative}
+.hero-badge{width:80px;height:80px;border-radius:50%;border:4px solid var(--gold);background:var(--navy);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:38px;box-shadow:0 0 20px rgba(212,160,23,0.3)}
+.hero h1{font-family:'Permanent Marker',cursive;font-size:2.2em;color:var(--gold);text-shadow:2px 2px 0 rgba(0,0,0,0.5);letter-spacing:2px}
+.hero h2{font-family:'Oswald',sans-serif;font-weight:400;font-size:.9em;color:var(--cream);opacity:.8;margin-top:4px;text-transform:uppercase;letter-spacing:3px}
+.hero .pack-info{font-size:.72em;color:var(--gold-light);margin-top:6px;font-family:'Oswald',sans-serif}
+.hero .welcome-user{font-size:.68em;color:rgba(255,248,231,0.5);margin-top:2px;font-family:'Oswald',sans-serif}
+
+/* ===== RANK SWITCHER ===== */
+.rank-switch{display:flex;justify-content:center;gap:8px;padding:12px 16px;background:rgba(0,0,0,0.2);border-bottom:2px solid rgba(212,160,23,0.15)}
+.rank-btn{flex:1;max-width:180px;padding:12px 8px;border:2px solid rgba(255,255,255,0.1);border-radius:12px;background:rgba(255,255,255,0.03);color:rgba(255,248,231,0.5);font-family:'Oswald',sans-serif;font-size:.9em;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .3s;text-align:center}
+.rank-btn .rank-emoji{display:block;font-size:1.8em;margin-bottom:4px}
+.rank-btn .rank-grade{display:block;font-size:.65em;font-weight:400;letter-spacing:2px;margin-top:2px;opacity:.6}
+.rank-btn.active-wolf{border-color:var(--wolf-blue);background:rgba(46,134,193,0.12);color:var(--wolf-blue-light);box-shadow:0 0 15px rgba(46,134,193,0.15)}
+.rank-btn.active-bear{border-color:var(--gold);background:rgba(212,160,23,0.1);color:var(--gold-light);box-shadow:0 0 15px rgba(212,160,23,0.15)}
+
+/* ===== PROGRESS DASH ===== */
+.progress-dash{background:var(--navy-light);padding:16px;border-bottom:2px solid rgba(212,160,23,0.2)}
+.progress-dash h3{font-family:'Oswald',sans-serif;color:var(--gold);font-size:.95em;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;text-align:center}
+.progress-dash.wolf-theme h3{color:var(--wolf-blue-light)}
+.rank-progress{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rank-icon{width:46px;height:46px;border-radius:50%;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--navy);flex-shrink:0}
+.wolf-theme .rank-icon{border-color:var(--wolf-blue)}
+.rank-bar-wrap{flex:1}
+.rank-bar-label{font-family:'Oswald',sans-serif;font-size:.82em;color:var(--cream);margin-bottom:4px;display:flex;justify-content:space-between}
+.rank-bar{height:16px;background:rgba(255,255,255,0.08);border-radius:8px;overflow:hidden;border:1px solid rgba(212,160,23,0.3)}
+.wolf-theme .rank-bar{border-color:rgba(46,134,193,0.3)}
+.rank-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:8px;transition:width .6s}
+.wolf-theme .rank-bar-fill{background:linear-gradient(90deg,#1A5276,var(--wolf-blue),var(--wolf-blue-light))}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.stat-box{background:rgba(255,255,255,0.04);border:1px solid rgba(212,160,23,0.2);border-radius:8px;padding:8px 4px;text-align:center}
+.wolf-theme .stat-box{border-color:rgba(46,134,193,0.2)}
+.stat-box .num{font-family:'Oswald',sans-serif;font-size:1.4em;color:var(--gold);font-weight:700}
+.wolf-theme .stat-box .num{color:var(--wolf-blue-light)}
+.stat-box .label{font-size:.58em;text-transform:uppercase;letter-spacing:1px;color:rgba(255,248,231,0.6);font-family:'Oswald',sans-serif;margin-top:2px}
+
+/* ===== TABS ===== */
+.tab-nav{display:flex;background:var(--navy);border-bottom:2px solid var(--gold-dark);position:sticky;top:0;z-index:100;overflow-x:auto}
+.tab-btn{flex:1;min-width:70px;padding:10px 4px 8px;background:none;border:none;color:rgba(255,248,231,0.5);font-family:'Oswald',sans-serif;font-size:.62em;text-transform:uppercase;letter-spacing:1px;cursor:pointer;border-bottom:3px solid transparent;transition:all .3s;white-space:nowrap;text-align:center}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,160,23,0.05)}
+.tab-btn .ti{display:block;font-size:1.6em;margin-bottom:2px}
+.tab-panel{display:none;padding:14px}.tab-panel.active{display:block}
+
+/* ===== ADVENTURES ===== */
+.section-title{font-family:'Permanent Marker',cursive;color:var(--gold);font-size:1.2em;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid rgba(212,160,23,0.3)}
+.section-title:first-child{margin-top:0}
+.wolf-theme .section-title{color:var(--wolf-blue-light);border-bottom-color:rgba(46,134,193,0.3)}
+.ac{background:var(--navy-light);border:1px solid rgba(212,160,23,0.15);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:all .3s}
+.ac.done{border-color:var(--green);box-shadow:0 0 10px rgba(39,174,96,0.15)}
+.ah{display:flex;align-items:center;padding:12px 14px;cursor:pointer;gap:10px;user-select:none}
+.ai{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid rgba(212,160,23,0.3);background:var(--navy)}
+.ac.done .ai{border-color:var(--green);background:rgba(39,174,96,0.15)}
+.af{flex:1}.an{font-family:'Oswald',sans-serif;font-size:.95em;font-weight:600;color:var(--cream)}
+.at{font-size:.65em;color:var(--gold);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.wolf-theme .at{color:var(--wolf-blue-light)}
+.ack{width:26px;height:26px;border-radius:50%;border:2px solid rgba(212,160,23,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .3s;background:transparent;color:transparent;font-size:12px}
+.ac.done .ack{border-color:var(--green);background:var(--green);color:#fff}
+.achev{color:rgba(255,248,231,0.3);font-size:16px;transition:transform .3s;flex-shrink:0}
+.ac.exp .achev{transform:rotate(180deg)}
+.ab{display:none;padding:0 14px 14px;border-top:1px solid rgba(212,160,23,0.1)}
+.ac.exp .ab{display:block}
+.ad{font-size:.82em;line-height:1.6;color:rgba(255,248,231,0.7);margin:10px 0}
+.rl{list-style:none}.ri{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:.8em;line-height:1.5}
+.rc{width:22px;height:22px;border-radius:4px;border:2px solid rgba(212,160,23,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;margin-top:1px;transition:all .2s;background:transparent;font-size:12px;color:transparent}
+.rc.ck{border-color:var(--green);background:var(--green);color:#fff}
+.rt{flex:1;color:rgba(255,248,231,0.8)}.rt.dn{text-decoration:line-through;opacity:.5}
+.fi{background:rgba(212,160,23,0.06);border:1px dashed rgba(212,160,23,0.3);border-radius:8px;padding:10px;margin-top:10px}
+.fi h4{font-family:'Permanent Marker',cursive;color:var(--gold);font-size:.85em;margin-bottom:4px}
+.fi p{font-size:.75em;line-height:1.6;color:rgba(255,248,231,0.65)}
+
+/* ===== SAFETY ===== */
+.sc{background:var(--navy-light);border:1px solid rgba(192,57,43,0.3);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px}
+.sc h4{font-family:'Oswald',sans-serif;color:var(--red);font-size:.9em;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.sc p{font-size:.78em;line-height:1.6;color:rgba(255,248,231,0.7)}
+.sl{display:inline-block;margin-top:6px;color:var(--gold);font-size:.75em;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:1px}
+
+/* ===== FUN ZONE ===== */
+.fc{background:linear-gradient(135deg,var(--navy-light) 0%,var(--brown) 100%);border:2px solid rgba(212,160,23,0.2);border-radius:12px;padding:18px;margin-bottom:12px;text-align:center;cursor:pointer;transition:all .3s}
+.fc:hover{border-color:var(--gold);transform:translateY(-2px)}
+.fc .fe{font-size:2.2em;margin-bottom:6px}
+.fc h4{font-family:'Permanent Marker',cursive;color:var(--gold);font-size:1em}
+.fc p{font-size:.72em;color:rgba(255,248,231,0.6);margin-top:4px}
+
+/* ===== LEADER ===== */
+.ls{background:var(--navy-light);border:1px solid rgba(212,160,23,0.15);border-radius:12px;padding:14px;margin-bottom:12px}
+.ls h4{font-family:'Oswald',sans-serif;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;font-size:.85em}
+.lb{display:block;width:100%;padding:10px 14px;background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);border-radius:8px;color:var(--cream);font-family:'Oswald',sans-serif;font-size:.82em;text-align:left;cursor:pointer;margin-bottom:6px;transition:all .2s}
+.lb:hover{background:rgba(212,160,23,0.15);border-color:var(--gold)}
+.lb.dng{border-color:rgba(192,57,43,0.3);color:var(--red)}.lb.dng:hover{border-color:var(--red);background:rgba(192,57,43,0.1)}
+
+/* ===== JOKES ===== */
+.jb{background:rgba(212,160,23,0.06);border:2px solid rgba(212,160,23,0.2);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
+.jb .jq{font-family:'Permanent Marker',cursive;color:var(--gold);font-size:1em;margin-bottom:10px}
+.jrb{background:var(--gold);color:var(--navy);border:none;padding:8px 20px;border-radius:20px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;font-size:.82em;text-transform:uppercase;letter-spacing:1px}
+.ja{display:none;font-family:'Permanent Marker',cursive;color:var(--green);font-size:.95em;margin-top:10px}
+
+/* ===== MODAL ===== */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.mo.open{display:flex}
+.mb{background:var(--navy-light);border:2px solid var(--gold);border-radius:16px;padding:24px;max-width:400px;width:100%;text-align:center;max-height:80vh;overflow-y:auto}
+.mb h3{font-family:'Permanent Marker',cursive;color:var(--gold);font-size:1.2em;margin-bottom:10px}
+.mb p{font-size:.82em;line-height:1.6;color:rgba(255,248,231,0.8);margin-bottom:14px}
+.mc{background:var(--gold);color:var(--navy);border:none;padding:10px 28px;border-radius:20px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;font-size:.85em}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--navy);border-top:2px solid rgba(212,160,23,0.2);padding:18px 16px;text-align:center}
+.footer p{font-family:'Oswald',sans-serif;font-size:.65em;color:rgba(255,248,231,0.4);text-transform:uppercase;letter-spacing:1px;line-height:1.8}
+.footer a{color:var(--gold);text-decoration:none}
+
+@media(min-width:600px){.tab-panel{padding:20px;max-width:700px;margin:0 auto}.hero h1{font-size:2.6em}}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-badge">🐺</div>
+    <h1>WOLFPACK 101</h1>
+    <h2>Adventure Hub</h2>
+    <div class="login-sub">Pack 101 • Gilbert, AZ • Authorized Access</div>
+    <form id="loginForm">
+      <div class="login-field"><label>Scout Name</label><input type="text" id="loginUser" placeholder="Enter your name..." autocomplete="off" required></div>
+      <div class="login-field"><label>Pack Password</label><input type="password" id="loginPass" placeholder="Enter pack password..." autocomplete="off" required>
+        <button type="button" class="pw-toggle" id="pwTog">👁️</button></div>
+      <button type="submit" class="login-btn">ENTER THE DEN 🐺</button>
+    </form>
+    <div class="login-error" id="loginError"></div>
+    <div class="login-foot">Protected by the Wolfpack 🐺</div>
+    <div class="login-link"><a href="https://wolfpack101.com" target="_blank">🧭 Launch Compass Adventure</a></div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="appWrapper">
+  <div class="hero">
+    <div class="hero-badge">🐺</div>
+    <h1>WOLFPACK 101</h1>
+    <h2>Cub Scout Adventure Hub</h2>
+    <div class="pack-info">Pack 101 • Gilbert, AZ</div>
+    <div class="welcome-user" id="welcomeUser"></div>
+  </div>
+
+  <!-- RANK SWITCHER -->
+  <div class="rank-switch">
+    <button class="rank-btn active-wolf" id="btnWolf" onclick="switchRank('wolf')">
+      <span class="rank-emoji">🐺</span>Wolf<span class="rank-grade">2nd Grade</span>
+    </button>
+    <button class="rank-btn" id="btnBear" onclick="switchRank('bear')">
+      <span class="rank-emoji">🐻</span>Bear<span class="rank-grade">3rd Grade</span>
+    </button>
+  </div>
+
+  <!-- PROGRESS DASHBOARD -->
+  <div class="progress-dash wolf-theme" id="progressDash">
+    <h3 id="progressTitle">🎯 Wolf Rank Progress</h3>
+    <div class="rank-progress">
+      <div class="rank-icon" id="rankIconMain">🐺</div>
+      <div class="rank-bar-wrap">
+        <div class="rank-bar-label"><span id="rankLabel">Wolf Badge</span><span id="progressPct">0%</span></div>
+        <div class="rank-bar"><div class="rank-bar-fill" id="progressBar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="num" id="sR">0/6</div><div class="label">Required</div></div>
+      <div class="stat-box"><div class="num" id="sE">0/2</div><div class="label">Elective</div></div>
+      <div class="stat-box"><div class="num" id="sT">0</div><div class="label">Completed</div></div>
+      <div class="stat-box"><div class="num" id="sQ">0</div><div class="label">Reqs Done</div></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="adventures"><span class="ti">🏕️</span>Adventures</button>
+    <button class="tab-btn" data-tab="safety"><span class="ti">🛡️</span>Safety</button>
+    <button class="tab-btn" data-tab="funzone"><span class="ti">🎉</span>Fun</button>
+    <button class="tab-btn" data-tab="leader"><span class="ti">📋</span>Leader</button>
+    <button class="tab-btn" data-tab="belts"><span class="ti">🥋</span>Belts</button>
+  </nav>
+
+  <!-- ADVENTURES TAB -->
+  <div class="tab-panel active" id="tab-adventures">
+    <div class="section-title" id="reqTitle">⭐ Required Adventures (All 6)</div>
+    <div id="rA"></div>
+    <div class="section-title" id="electTitle">🎒 Elective Adventures (At Least 2)</div>
+    <div id="eA"></div>
+    <div class="section-title">🎯 Special Electives</div>
+    <p style="font-size:.78em;color:rgba(255,248,231,0.5);margin-bottom:10px;font-style:italic">Approved events with qualified instructors only.</p>
+    <div id="sA"></div>
+  </div>
+
+  <!-- SAFETY TAB -->
+  <div class="tab-panel" id="tab-safety">
+    <div class="section-title">🛡️ Guide to Safe Scouting</div>
+    <p style="font-size:.8em;color:rgba(255,248,231,0.6);margin-bottom:14px">From <a href="https://www.scouting.org/health-and-safety/gss/toc/" style="color:var(--gold)" target="_blank">Scouting America GSS</a>.</p>
+    <div id="safeC"></div>
+  </div>
+
+  <!-- FUN ZONE TAB -->
+  <div class="tab-panel" id="tab-funzone">
+    <div class="section-title">🎉 Wolfpack Fun Zone</div>
+    <div class="jb"><div class="jq" id="jQ"></div><button class="jrb" id="jBtn" onclick="rvJ()">REVEAL ANSWER!</button><div class="ja" id="jA"></div></div>
+    <div class="fc" onclick="sM('trivia')"><div class="fe">🧠</div><h4>Scout Trivia</h4></div>
+    <div class="fc" onclick="sM('song')"><div class="fe">🔥</div><h4>Campfire Song</h4></div>
+    <div class="fc" onclick="sM('cheer')"><div class="fe">📢</div><h4>Scout Cheer</h4></div>
+    <div class="fc" onclick="sM('nature')"><div class="fe">🦎</div><h4>AZ Nature Fact</h4></div>
+    <div class="fc" onclick="window.open('https://wolfpack101.com','_blank')"><div class="fe">🧭</div><h4>Compass Adventure</h4></div>
+  </div>
+
+  <!-- LEADER TAB -->
+  <div class="tab-panel" id="tab-leader">
+    <div class="section-title">📋 Leader & Parent Tools</div>
+    <div class="ls"><h4>Quick Actions</h4>
+      <button class="lb" onclick="expProg()">📊 Export Progress Report</button>
+      <button class="lb" onclick="rstProg()">🔄 Reset Current Rank Progress</button>
+      <button class="lb" onclick="sM('meeting')">📝 Den Meeting Planner</button>
+      <button class="lb" id="officialLink" onclick="window.open('https://www.scouting.org/programs/cub-scouts/adventures/wolf/','_blank')">🔗 Official Wolf Adventures</button>
+      <button class="lb" onclick="window.open('https://www.scouting.org/health-and-safety/gss/toc/','_blank')">🔗 Guide to Safe Scouting</button>
+    </div>
+    <div class="ls"><h4>Completed Adventures</h4><div id="cLog" style="font-size:.78em;color:rgba(255,248,231,0.6)">Loading...</div></div>
+    <div class="ls"><h4>Pack 101 Sites</h4>
+      <button class="lb" onclick="window.open('https://wolfpack101.com','_blank')">🧭 wolfpack101.com</button>
+      <button class="lb" onclick="window.open('https://scouts101.com','_blank')">🏠 scouts101.com</button>
+      <button class="lb" onclick="window.open('https://scoutpack101az.com','_blank')">📦 scoutpack101az.com</button>
+      <button class="lb" onclick="window.open('https://azscouts101.com','_blank')">🌵 azscouts101.com</button>
+    </div>
+    <div class="ls"><h4>Session</h4><button class="lb dng" onclick="doLogout()">🔒 Logout</button></div>
+  </div>
+
+  <!-- BELTS TAB -->
+  <div class="tab-panel" id="tab-belts">
+    <div class="section-title">🥋 Wolfpack Belt System</div>
+    <p style="font-size:.8em;color:rgba(255,248,231,0.6);margin-bottom:14px">Earn belts as you complete adventures!</p>
+    <div id="bD"></div>
+    <div class="section-title" style="margin-top:20px">🏆 Achievements</div>
+    <div id="achL" style="font-size:.82em;color:rgba(255,248,231,0.7)">Complete adventures to unlock!</div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="mo" id="modO"><div class="mb"><h3 id="mT"></h3><div id="mB"></div><button class="mc" onclick="cM()">GOT IT!</button></div></div>
+
+  <!-- FOOTER -->
+  <div class="footer"><p>Wolfpack 101 • Pack 101 Gilbert, AZ<br><a href="https://wolfpack101.com">wolfpack101.com</a> • <a href="https://scouts101.com">scouts101.com</a><br>Built with ❤️ for Cub Scouts • Stay on trails • Bring water • Buddy system</p></div>
+</div>
+
+<script>
+// ===== SIMPLE STRING HASH =====
+function simpleHash(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h=h&h}return h.toString(36)}
+var VALID_HASH=simpleHash('trueNorth101');
+
+// ===== SESSION =====
+function getSess(){try{var s=JSON.parse(localStorage.getItem('wp101_sess'));if(s&&Date.now()-s.ts<30*86400000)return s;localStorage.removeItem('wp101_sess')}catch(e){}return null}
+function setSess(n){try{localStorage.setItem('wp101_sess',JSON.stringify({name:n,ts:Date.now()}))}catch(e){}}
+
+// ===== LOGIN =====
+document.getElementById('loginForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var user=document.getElementById('loginUser').value.trim();
+  var pass=document.getElementById('loginPass').value;
+  if(!user){showErr('Enter your Scout name!');return}
+  if(simpleHash(pass)!==VALID_HASH){showErr('Wrong password! Ask your Den Leader.');return}
+  setSess(user);launchApp(user);
+});
+document.getElementById('pwTog').addEventListener('click',function(){var p=document.getElementById('loginPass');p.type=p.type==='password'?'text':'password'});
+function showErr(m){var e=document.getElementById('loginError');e.textContent=m;e.style.display='block';setTimeout(function(){e.style.display='none'},3000)}
+function launchApp(name){document.getElementById('loginScreen').style.display='none';document.getElementById('appWrapper').style.display='block';document.getElementById('welcomeUser').textContent='Welcome, '+name+'!';initApp()}
+function doLogout(){try{localStorage.removeItem('wp101_sess')}catch(e){}location.reload()}
+(function(){var s=getSess();if(s)launchApp(s.name)})();
+
+// ===== CURRENT RANK =====
+var currentRank='wolf';
+
+// =========================================================
+// WOLF ADVENTURES (2nd Grade)
+// =========================================================
+var WOLF_ADV={
+required:[
+{id:'w_bobcat',name:'Bobcat',icon:'🐱',type:'Required • Character & Leadership',
+desc:'The foundation! Meet your den, learn the Scout Oath and Law, and show what it means to "Do Your Best."',
+reqs:['Get to know the members of your den','Recite the Scout Oath and Scout Law with your den and den leader','Learn about the Scout Law','With your den, create a den code of conduct','Demonstrate the Cub Scout sign, salute, and handshake — show how each is used','Share a time you demonstrated the Cub Scout motto "Do Your Best"','Complete "How to Protect Your Children From Child Abuse: A Parent\'s Guide" with parent/guardian'],
+fun:'Have each Scout draw their own "Scout Law superhero" — pick one point of the law and design a hero based on it!'},
+
+{id:'w_paws_path',name:'Paws on the Path',icon:'🐾',type:'Required • Outdoors',
+desc:'Hit the trail! Learn the Six Essentials, buddy system, and take a 30-min nature walk.',
+reqs:['Identify the Cub Scout Six Essentials — show what you do with each item','Learn about the buddy system and how it works outdoors. Pick a buddy for your walk','Identify appropriate clothes and shoes for your walk. Do your best to wear them','Learn about the Outdoor Code and Leave No Trace Principles for Kids','Take a 30-min walk outside with den/pack/family — describe 4 different animals you could see'],
+fun:'Make a "trail bingo" card before you go — mark off birds, bugs, plants, lizards as you spot them!'},
+
+{id:'w_running',name:'Running With the Pack',icon:'🏃',type:'Required • Personal Fitness',
+desc:'Get moving! Practice throwing, catching, balancing, and plan a healthy meal.',
+reqs:['Play catch with someone 5 steps away. Keep going until you can throw and catch successfully, then take a step back','Practice balancing as you walk forward, backward, and sideways','Practice flexibility and balance: front roll, back roll, and frog stand','Play a sport or game with your den or family — show good sportsmanship','Do at least two: frog leap, inchworm walk, kangaroo hop, or crab walk','Help plan a healthy meal menu for your den or family. Make a shopping list'],
+fun:'Turn the animal walks into a relay race! Frog leap to the cone, crab walk back — whoever loses does 5 jumping jacks!'},
+
+{id:'w_council',name:'Council Fire',icon:'🏛️',type:'Required • Citizenship',
+desc:'Learn about your community! Flag ceremony, build a neighborhood, and do a service project.',
+reqs:['Learn to properly care for and fold the US flag. Participate in a flag ceremony','Identify 3 points of the Scout Law that are important to being a good neighbor','Build a model of your home','Using same materials, create a model of a building you visit','Using both models, create a neighborhood','Participate in a service project — explain how your volunteering helps the neighborhood'],
+fun:'Use LEGOs, cardboard boxes, or recycled materials to build your neighborhood — add roads with tape!'},
+
+{id:'w_safety',name:'Safety in Numbers',icon:'🛡️',type:'Required • Personal Safety',
+desc:'Stay safe! Protect Yourself Rules, buddy system, and playground safety.',
+reqs:['With parent/guardian permission, watch the "Protect Yourself Rules" video for Wolf rank','Discuss "safe touch" as seen in the video','Learn about the buddy system and demonstrate how it works','Review common safety rules and demonstrate proper use of playground equipment'],
+fun:'Play "Safety Simon Says" — Simon says use the buddy system! Simon says check both ways!'},
+
+{id:'w_footsteps',name:'Duty to God Footsteps',icon:'⛪',type:'Required • Family & Reverence',
+desc:'Explore your family\'s faith traditions, attend a service, and practice kindness.',
+reqs:['With parent/guardian, talk about your family\'s faith traditions. Identify 3 holidays/celebrations. Make a craft or art of your favorite one','With your family, attend a religious service or gathering that shows how your family expresses reverence','Carry out an act of kindness','Listen to/read Aesop\'s fable "The Boy Who Cried Wolf" — discuss why being truthful is important'],
+fun:'Make a "kindness chain" — each link is an act of kindness. See how long you can make it in a month!'}
+],
+elective:[
+{id:'w_fishing',name:'A Wolf Goes Fishing',icon:'🎣',type:'Elective • Outdoors',
+desc:'Learn to fish! Identify fish, learn bait types, practice casting, and go fishing.',
+reqs:['Identify the type of water you will be fishing in and what fish live there','Learn about different types of bait used to attract fish','Demonstrate a proper cast for your pole or rod','Learn the rules of fishing safely','With your den, pack, or family — go fishing!'],
+fun:'At Water Ranch Lake in Gilbert — AZ license required (kids 9 & under exempt). Barbless hooks. 2 trout / 2 catfish daily limit!'},
+
+{id:'w_coins',name:'Adventures in Coins',icon:'🪙',type:'Elective • STEM',
+desc:'Discover the world of coins! Parts, mint marks, coin games, and rubbings.',
+reqs:['Identify different parts of a coin','Find the mint mark on a coin — identify the mint facility and year','Play a coin game','Choose a coin, make a rubbing, and list its pictures, year, and mint'],
+fun:'Bring coins from different countries or decades — who has the oldest coin wins!'},
+
+{id:'w_air',name:'Air of the Wolf',icon:'✈️',type:'Elective • STEM',
+desc:'Paper airplanes and flying machines! Build, test, compare, and innovate.',
+reqs:['Make a paper airplane and fly it 5 times — record distance and time','Make a different design paper airplane, fly 5 times — record distance and time','Compare and contrast the two planes by distance and flight time','Build a flying machine that is NOT a paper airplane'],
+fun:'Have a pack paper airplane distance contest! Award "Top Gun" patch to the winner!'},
+
+{id:'w_champions',name:'Champions for Nature',icon:'🌿',type:'Elective • Conservation',
+desc:'Learn about renewable vs. nonrenewable resources, recycling, and conservation.',
+reqs:['Discover the difference between renewable and nonrenewable natural resources','Learn about the 3 R\'s: reduce, reuse, recycle','Discover what happens to recyclables in your community','Participate in a conservation project'],
+fun:'Do a "trash pickup challenge" at the park — weigh the bags and celebrate the total!'},
+
+{id:'w_code',name:'Code of the Wolf',icon:'🔐',type:'Elective • STEM',
+desc:'Secret codes, patterns, shapes, and colors! Crack the code and send messages.',
+reqs:['Create a secret code. Send a message to a den member or family. Have them send one back','Build and play a game that requires codes or patterns','Select a single shape — observe your environment and write down where you see it and how it\'s used','Using a package with different colored items, discover the most common color'],
+fun:'Create a pack-wide secret code and use it in announcements all month!'},
+
+{id:'w_computing',name:'Computing Wolves',icon:'💻',type:'Elective • Technology',
+desc:'Basic computer components, digital safety, and create a digital story.',
+reqs:['Discover the basic components of a computer','Determine how to properly dispose of computer components','Using a digital device app, create a story you can share','With parent/guardian, set up a policy for safely using digital devices'],
+fun:'Use Scratch Jr to create an animated story about your Pack — present it at a den meeting!'},
+
+{id:'w_care',name:'Cubs Who Care',icon:'💙',type:'Elective • Character',
+desc:'Walk in someone else\'s shoes! Explore physical disabilities, visual and hearing impairments, and barriers.',
+reqs:['Explore what it is to have a physical disability','Explore what it is to have a visual impairment','Explore what it is to have hearing loss','Explore barriers to getting around'],
+fun:'Blindfold relay race with a buddy guide — teaches trust AND awareness!'},
+
+{id:'w_digging',name:'Digging in the Past',icon:'🦕',type:'Elective • Science',
+desc:'Dinosaurs! Play dino games, create an imaginary dinosaur, dig for fossils, and build a fossil layer.',
+reqs:['Play a dinosaur game that shows what you know about them','Create an imaginary dinosaur — share its name, diet, size, and habitat with your den','Be a paleontologist and dig through a dinosaur dig','Build a fossil layer'],
+fun:'Bury plastic dinos in a sandbox or sand bucket — give Scouts brushes and let them excavate!'},
+
+{id:'w_finding',name:'Finding Your Way',icon:'🧭',type:'Elective • Navigation',
+desc:'Maps and compass basics! Locate your home, draw a map, find cardinal directions.',
+reqs:['Using a map, locate where you live','Draw a map for a friend to locate your home or school — create a key','Find N, E, S, W and the compass rose on a map','Find N, E, S, W using a compass','Practice using both a map and a compass'],
+fun:'Our Wolfpack 101 Compass Adventure at the Riparian Preserve covers this and then some! Launch it at wolfpack101.com!'},
+
+{id:'w_germs',name:'Germs Alive!',icon:'🦠',type:'Elective • Health',
+desc:'Handwashing science! Germ games, sneeze demos, mucus experiments, and mold cultures.',
+reqs:['Wash hands with soap and water while singing "Happy Birthday" twice','Play Germ Magnet with your den or family — wash hands afterward','Conduct the sneeze demonstration','Conduct the mucus demonstration','Grow a mold culture — show what formed at a den or pack meeting'],
+fun:'Glitter germ experiment: put glitter on hands, shake hands with everyone, then see how far "germs" spread!'},
+
+{id:'w_camp',name:'Let\'s Camp!',icon:'⛺',type:'Elective • Outdoors',
+desc:'Camping skills! Buddy system, Six Essentials, personal items, and learn a camping skill.',
+reqs:['Learn about the buddy system and how it works outdoors','Know the Cub Scout Six Essentials','In addition to Six Essentials, list personal items you need for your campout','Learn a camping skill'],
+fun:'Practice setting up a tent in the backyard — time trials! Fastest setup wins bragging rights.'},
+
+{id:'w_water',name:'Paws for Water',icon:'💧',type:'Elective • Conservation',
+desc:'Where does your water come from? Discover, discuss pollution, conserve, and learn about treatment.',
+reqs:['Discover where the water in your home comes from','Discuss how water can become polluted','Share ways you can conserve water at home','Discover how water in your community is treated to become safe to drink'],
+fun:'Build a simple water filter with a plastic bottle, sand, gravel, and cotton — filter dirty water and see the difference!'},
+
+{id:'w_paws_skill',name:'Paws of Skill',icon:'⚽',type:'Elective • Fitness',
+desc:'Sports skills! Throwing, catching, kicking, and game time.',
+reqs:['Talk about the importance of good sportsmanship','Demonstrate good sportsmanship during a game','Demonstrate three athletic skills (throwing, catching, kicking, etc.)','Play a sport with your den or family'],
+fun:'Set up a mini Wolfpack Olympics with stations — each sport gets a "gold medal" sticker!'},
+
+{id:'w_pedal',name:'Pedal With the Pack',icon:'🚲',type:'Elective • Safety',
+desc:'Bike safety! Helmet fitting, hand signals, safety check, and a ride.',
+reqs:['Learn how to properly fit a bicycle helmet','Learn about bike hand signals','Perform a bicycle safety check','Go on a bike ride with your den, pack, or family'],
+fun:'Mark a "bike course" with cones and practice hand signals at each turn. Patrol officers watch for violations!'},
+
+{id:'w_race',name:'Race Time',icon:'🏎️',type:'Elective • STEM',
+desc:'Pinewood Derby and beyond! Design, build, and race.',
+reqs:['Learn the rules of the race','Design your vehicle','Build your vehicle','Race your vehicle'],
+fun:'Start designing your Pinewood Derby car NOW — the best cars take weeks to build right!'},
+
+{id:'w_spirit',name:'Spirit of the Water',icon:'🌊',type:'Elective • Nature',
+desc:'Water exploration! Lakes, rivers, streams — learn about water ecosystems.',
+reqs:['Discover where the water in your home comes from','Discuss how water can become polluted','Share ways to conserve water at home','Discover how your community treats water to make it safe'],
+fun:'Visit the Riparian Preserve ponds — 7 ponds recharging groundwater! Count how many different animals use the water.'},
+
+{id:'w_summer',name:'Summertime Fun',icon:'☀️',type:'Elective • Seasonal',
+desc:'Summer activities between May-August. Three Cub Scout activities during summer.',
+reqs:['Anytime during May through August, participate in a total of three Cub Scout activities'],
+fun:'Day camp, pack campout, fishing trip, swimming — rack up three summer activities for this one!'}
+],
+special:[
+{id:'w_archery',name:'Archery',icon:'🏹',type:'Special • Shooting Sports',desc:'Learn archery safety and skills at an approved range.',reqs:['Learn archery safety rules','Demonstrate proper shooting technique','Participate in an archery activity'],fun:'Council day camps and camps usually have archery ranges — sign up early!'},
+{id:'w_slingshot',name:'Slingshot',icon:'🎯',type:'Special • Shooting Sports',desc:'Slingshot safety and skills with qualified instructors.',reqs:['Learn slingshot safety rules','Demonstrate proper technique','Participate in a slingshot activity'],fun:'Some council events have slingshot ranges — check your local council calendar!'},
+{id:'w_bb',name:'BB Guns',icon:'🔫',type:'Special • Shooting Sports',desc:'BB gun safety and marksmanship at approved events.',reqs:['Learn BB gun safety rules','Demonstrate proper shooting technique','Participate in a BB gun activity'],fun:'NRA-certified instructors only! Council camps are the best place for this one.'}
+]};
+
+// =========================================================
+// BEAR ADVENTURES (3rd Grade)
+// =========================================================
+var BEAR_ADV={
+required:[
+{id:'b_bobcat',name:'Bobcat',icon:'🐱',type:'Required • Character & Leadership',
+desc:'Bear-level Bobcat! Review the Scout Oath & Law, demonstrate signs, and recommit to "Do Your Best."',
+reqs:['Get to know the members of your den','Recite the Scout Oath and the Scout Law with your den and den leader','Learn about the Scout Law — demonstrate understanding of being helpful','With your den, create or update a den code of conduct','Demonstrate the Cub Scout sign, salute, and handshake. Show how each is used','Share a time you demonstrated the Cub Scout motto "Do Your Best"','Complete "How to Protect Your Children" with parent/guardian'],
+fun:'Do a "Scout Law relay" — each Scout runs to a card, reads a point of the law, acts it out!'},
+
+{id:'b_fur',name:'Fur, Feathers, and Ferns',icon:'🦅',type:'Required • Outdoors',
+desc:'Explore nature! Identify animals & plants, learn about habitats, and observe wildlife.',
+reqs:['While hiking or walking, identify 6 different animals through sight, sound, or tracks','Identify 2 ways animals can be helpful to their environment','Identify 2 different birds by sight or sound','Identify 2 different insects or spiders','Identify 2 different plants, fungi, or lichens'],
+fun:'Riparian Preserve has 300+ bird species — bring binoculars and a field guide. Whoever IDs the most species gets a Wolfpack nature patch!'},
+
+{id:'b_grin',name:'Bear Claws',icon:'🐻',type:'Required • Personal Fitness',
+desc:'Physical fitness challenges! Stretching, exercises, and active games.',
+reqs:['Learn warm-up stretches and demonstrate at least 4','Practice basic physical fitness exercises','With your den or family, plan and participate in a fitness activity','Learn about the importance of rest and sleep for staying healthy'],
+fun:'Bear Fitness Challenge: pushups, situps, jumping jacks — track improvements over a month!'},
+
+{id:'b_paws_duty',name:'Paws for Action',icon:'🇺🇸',type:'Required • Citizenship',
+desc:'Citizenship in action! Learn about community helpers, flag etiquette, and do a service project.',
+reqs:['With your den, pack, or family, participate in a service project','Learn about 3 community helpers in your area. Discuss how they help the community','Identify 3 points of the Scout Law and demonstrate them through the service project','Learn about the US flag — participate in a flag ceremony'],
+fun:'Partner with the local fire station for a visit AND a service project combo — two requirements in one outing!'},
+
+{id:'b_safety',name:'A Bear Goes Fishing / Safety',icon:'🛡️',type:'Required • Personal Safety',
+desc:'Bear safety! Protect Yourself Rules, online safety, and safe practices.',
+reqs:['With parent/guardian permission, watch the "Protect Yourself Rules" video for Bear rank','Discuss "safe touch" and "safe online behavior" as seen in the video','Learn about the buddy system and demonstrate how it works','Review common safety rules for outdoor activities'],
+fun:'Create "Safety Patrol" badges — each Scout takes a turn being the group\'s safety officer!'},
+
+{id:'b_footsteps',name:'Fellowship and Duty to God',icon:'⛪',type:'Required • Family & Reverence',
+desc:'Deepen your family\'s faith journey. Community service, reverence, and kindness.',
+reqs:['With your parent/guardian, talk about your family\'s faith traditions','Identify 3 holidays or celebrations from your faith. Create a craft or art project about one','With family, attend a religious service or gathering','Practice 2 things that bring you closer to your duty to God','Carry out an act of kindness — tell your den about it'],
+fun:'Volunteer at a food bank or shelter as your act of kindness — bring the whole den!'}
+],
+elective:[
+{id:'b_beat',name:'Beat of the Drum',icon:'🥁',type:'Elective • Music',
+desc:'Explore music and rhythm! Make instruments, learn beats, perform for others.',
+reqs:['Learn about different types of musical instruments','Make a musical instrument','Play your instrument for your den or family','Sing or play 2 different songs'],
+fun:'Build rain sticks, drums from oatmeal containers, or shakers from water bottles with rice!'},
+
+{id:'b_forensics',name:'Forensics',icon:'🔍',type:'Elective • STEM',
+desc:'CSI: Cub Scouts! Fingerprinting, observation skills, and mystery solving.',
+reqs:['Learn about fingerprints and what makes them unique','Examine your fingerprints and compare them with a friend\'s','Learn about 2 different types of forensic evidence','Solve a mystery using observation and clues'],
+fun:'Set up a mock crime scene at a den meeting — the Scouts must solve the "Case of the Missing Neckerchief!"'},
+
+{id:'b_roar',name:'Bear Picnic Basket',icon:'🧺',type:'Elective • Cooking',
+desc:'Outdoor cooking! Learn food safety, plan a meal, cook outdoors.',
+reqs:['Learn about food safety and proper food handling','Plan a balanced meal for an outdoor activity','Prepare and cook at least one part of your meal','Practice cleanup and Leave No Trace after your meal'],
+fun:'Dutch oven cobbler is always a crowd-pleaser! Dump cake recipe: canned fruit + dry cake mix + butter on top. Done!'},
+
+{id:'b_salmon',name:'Salmon Run',icon:'🐟',type:'Elective • Outdoors',
+desc:'Fishing and aquatic life! Learn about local fish, bait, casting, and go fishing.',
+reqs:['Identify the type of water you will fish in and what types of fish live there','Learn about different bait types and when to use them','Demonstrate a proper cast','Learn fishing safety rules','Go fishing with your den, pack, or family'],
+fun:'Water Ranch Lake right here in Gilbert — grab your poles and head down!'},
+
+{id:'b_marble',name:'Marble Madness',icon:'🔮',type:'Elective • Games',
+desc:'Classic marble games! Learn to play, make a course, tournament time.',
+reqs:['Learn about the history of marbles','Learn to play a marble game','Create a marble course or maze','Compete in a marble tournament with your den or family'],
+fun:'Build marble runs from cardboard tubes, tape, and boxes — engineering + fun!'},
+
+{id:'b_robotics',name:'Robotics',icon:'🤖',type:'Elective • STEM',
+desc:'Build and program! Learn about robots, build one, and make it do a task.',
+reqs:['Learn what a robot is and identify 3 different kinds of robots','Build a robot or robotic device','Program or operate your robot to complete a task','Share your robot with your den or family'],
+fun:'LEGO Mindstorms, Dash robots, or even a simple bristlebot from a toothbrush head and motor!'},
+
+{id:'b_super',name:'Super Science',icon:'🔬',type:'Elective • Science',
+desc:'Science experiments! Conduct experiments, observe, record, and share.',
+reqs:['Conduct 3 science experiments and record what happens','Share your results with your den or family','Explore why you got the results you did','Learn about a real scientist and what they study'],
+fun:'Mentos + Diet Coke, baking soda volcano, invisible ink — the classics never get old!'},
+
+{id:'b_bclaws',name:'Baloo the Builder',icon:'🔨',type:'Elective • Building',
+desc:'Build it! Learn tool safety, use real tools, build a useful project.',
+reqs:['Learn about basic tools and their uses','Demonstrate proper use of 3 tools','Build a useful project using your tools','Apply a finish to your project or explain why it doesn\'t need one'],
+fun:'Birdhouses! Simple, useful, and the Scouts can hang them in their yards after.'},
+
+{id:'b_code',name:'Critter Care',icon:'🐕',type:'Elective • Animals',
+desc:'Pet care and animal responsibility! Learn proper care, volunteer, and more.',
+reqs:['Learn about a pet or animal of your choice','Show how to properly care for the animal','If possible, visit an animal shelter, zoo, or nature center','Explain how animals help people or the environment'],
+fun:'Invite a local vet or pet rescue to a den meeting — live animals = maximum engagement!'},
+
+{id:'b_world',name:'A World of Sound',icon:'🎵',type:'Elective • Music/Science',
+desc:'Sound exploration! Learn how sound works, experiment, and create.',
+reqs:['Demonstrate how sound is created by vibrations','Experiment with changing the pitch of sounds','Make 2 musical instruments','Show how you can muffle or block sound'],
+fun:'String telephone, rubber band guitar, straw oboe — sound science is hands-on!'},
+
+{id:'b_whittling',name:'Whittling Chip',icon:'🔪',type:'Elective • Outdoor Skills',
+desc:'Earn your Whittling Chip! Knife safety, proper use, and carving skills.',
+reqs:['Read and understand the knife safety rules','Demonstrate proper knife handling','Show how to safely open and close a pocketknife','Demonstrate proper care of your knife','Use your knife to whittle a project'],
+fun:'Soap carving first (no sharp edges needed) then graduate to wood when they earn the chip!'},
+
+{id:'b_race',name:'Race Time Bear',icon:'🏎️',type:'Elective • STEM',
+desc:'Pinewood Derby and racing! Design, build, and compete.',
+reqs:['Learn the rules of the race','Design your vehicle','Build your vehicle','Race your vehicle'],
+fun:'Graphite on the axles, smooth the burrs, weight at the back — Pinewood Derby pro tips!'}
+],
+special:[
+{id:'b_archery',name:'Archery',icon:'🏹',type:'Special • Shooting Sports',desc:'Learn archery at approved events with certified instructors.',reqs:['Learn archery safety rules','Demonstrate proper shooting technique','Participate in an archery activity'],fun:'Council day camps usually have archery ranges — sign up early!'},
+{id:'b_slingshot',name:'Slingshot',icon:'🎯',type:'Special • Shooting Sports',desc:'Slingshot skills with qualified instructors.',reqs:['Learn slingshot safety rules','Demonstrate proper technique','Participate in a slingshot activity'],fun:'Check your local council event calendar for shooting sports events!'},
+{id:'b_bb',name:'BB Guns',icon:'🔫',type:'Special • Shooting Sports',desc:'BB gun safety and marksmanship.',reqs:['Learn BB gun safety rules','Demonstrate proper shooting technique','Participate in a BB gun activity'],fun:'NRA-certified instructors required. Council camps are the best spot!'}
+]};
+
+// ===== SAFETY =====
+var SAFETY=[
+{t:'Two-Deep Leadership',d:'At least 2 registered adults required at all times. No one-on-one contact between adults and youth.',l:'https://www.scouting.org/health-and-safety/gss/gss01/'},
+{t:'Buddy System',d:'Every Scout has a buddy. No one goes anywhere alone — trail, restroom, anywhere.',l:'https://www.scouting.org/health-and-safety/gss/gss01/'},
+{t:'Youth Protection',d:'All adults must have current Youth Protection Training. Report concerns immediately.',l:'https://www.scouting.org/health-and-safety/youth-protection/'},
+{t:'Physical Safety',d:'Age-appropriate activities only. Helmets for wheels. PFDs near water. First aid kit always present.',l:'https://www.scouting.org/health-and-safety/gss/gss03/'},
+{t:'Weather & Hydration',d:'AZ heat is real! 32oz water minimum per Scout. Hat + SPF50. If temp >105°F, move indoors.',l:'https://www.scouting.org/health-and-safety/gss/gss03/'},
+{t:'Transportation',d:'Seatbelts required. Trip plans filed. No texting while driving. Adequate adult-to-Scout ratio in vehicles.',l:'https://www.scouting.org/health-and-safety/gss/gss17/'},
+{t:'Incident Reporting',d:'Report all injuries, near-misses, and safety concerns immediately. Use BSA incident report forms.',l:'https://www.scouting.org/health-and-safety/gss/gss14/'}
+];
+
+// ===== FUN CONTENT =====
+var JOKES=[
+{q:"Why did the Cub Scout bring a ladder to the meeting?",a:"Because the den leader said to reach new heights! 🪜"},
+{q:"What do you call a bear with no teeth?",a:"A gummy bear! 🐻"},
+{q:"Why don't Cub Scouts ever get lost?",a:"Because they always find their way with a compass and a buddy! 🧭"},
+{q:"What do Scouts use to light a campfire?",a:"A match made in heaven! 🔥"},
+{q:"What did the tent say to the sleeping bag?",a:"I've got you covered! ⛺"},
+{q:"Why did the wolf go to school?",a:"To improve his HOWL-cation! 🐺"},
+{q:"What do you call a lazy Wolf Scout?",a:"A couch potato in a uniform! 🥔"},
+{q:"How do Scouts stay cool in the Arizona heat?",a:"They stand next to their FANS (fellow awesome new Scouts)! 😎"},
+{q:"What's a Scout's favorite type of music?",a:"Country — because they love the OUTDOORS! 🎶"},
+{q:"Why did the compass break up with the map?",a:"It lost its direction in the relationship! 🧭💔"}
+];
+var TRIVIA=[
+{q:"What year was the Boy Scouts of America founded?",a:"1910"},
+{q:"How many points does the Scout Law have?",a:"12 — Trustworthy, Loyal, Helpful, Friendly, Courteous, Kind, Obedient, Cheerful, Thrifty, Brave, Clean, Reverent"},
+{q:"What does the fleur-de-lis on the Scout badge represent?",a:"A compass rose pointing the way — like the north needle on a compass!"},
+{q:"What is the Cub Scout motto?",a:"Do Your Best!"},
+{q:"Who started Scouting?",a:"Lord Robert Baden-Powell in 1907 in England"},
+{q:"How many acres is the Riparian Preserve in Gilbert?",a:"110 acres with 7 ponds and a lake!"},
+{q:"What does 'Akela' mean in Cub Scouts?",a:"The good leader — from Rudyard Kipling's The Jungle Book"}
+];
+var SONGS=["🎵 <b>Baby Shark (Scout Edition)</b><br>Going camping, doo doo doo doo doo doo<br>Set the tent up, doo doo doo doo doo doo<br>Start the campfire, doo doo doo doo doo doo<br>Roast the marshmallows!","🎵 <b>Repeat After Me</b><br>I said a BOOM CHICKA-BOOM!<br>(I said a BOOM CHICKA-BOOM!)<br>I said a BOOM CHICKA-ROCKA CHICKA-ROCKA CHICKA-BOOM!<br>(Repeat!) Try it sloooow... Try it FAST!","🎵 <b>The Grand Old Duke of York</b><br>Oh, the grand old Duke of York<br>He had ten thousand men<br>He marched them up to the top of the hill<br>And he marched them down again!"];
+var CHEERS=["📢 <b>The Wolfpack Howl</b><br>Leader: 'What does the Wolfpack say?'<br>Den: 'AWOOOOO!' (3 times, getting louder!)","📢 <b>Fireworks Cheer</b><br>Shhhhh... (wiggle fingers up) BOOM! (clap and spread hands wide) Aaaahhhh! (look amazed)","📢 <b>The One-Oh-One Cheer</b><br>Leader: 'What pack are we?'<br>Den: 'ONE-OH-ONE!' (3 times, louder each time!)"];
+var NFACTS=[
+"🦎 Gilbert's Riparian Preserve has over 300 species of birds — one of the best birding spots in Arizona!",
+"🌵 A Saguaro cactus can live 200 years and doesn't grow its first arm until it's about 75 years old!",
+"🦅 Harris's Hawks in Arizona hunt in packs — the only raptors in the world that do!",
+"🏜️ Gilbert was once the 'Hay Shipping Capital of the World' before becoming one of AZ's fastest-growing cities.",
+"🦂 Arizona bark scorpions glow under UV light! Take a blacklight on a night hike to spot them (carefully!).",
+"🐰 Desert cottontails can run up to 20 mph — they're everywhere in Gilbert!",
+"🌡️ The hottest temp ever in Gilbert was 122°F. That's why we hike EARLY in summer!"
+];
+
+// ===== BELT SYSTEMS =====
+var WOLF_BELTS=[
+{n:'White',c:'#FFFFFF',r:'Start your Wolf journey',t:0},
+{n:'Yellow',c:'#FFD700',r:'Complete 5 requirements',t:5},
+{n:'Orange',c:'#FF8C00',r:'Complete 10 requirements',t:10},
+{n:'Green',c:'#27AE60',r:'Complete 1 adventure',t:'a1'},
+{n:'Blue',c:'#2980B9',r:'Complete 3 adventures',t:'a3'},
+{n:'Red',c:'#C0392B',r:'Complete 5 adventures',t:'a5'},
+{n:'Brown',c:'#795548',r:'All required adventures done',t:'ar'},
+{n:'Black',c:'#1A1A1A',r:'WOLF BADGE EARNED!',t:'wolf'}
+];
+var BEAR_BELTS=[
+{n:'White',c:'#FFFFFF',r:'Start your Bear journey',t:0},
+{n:'Yellow',c:'#FFD700',r:'Complete 5 requirements',t:5},
+{n:'Orange',c:'#FF8C00',r:'Complete 10 requirements',t:10},
+{n:'Green',c:'#27AE60',r:'Complete 1 adventure',t:'a1'},
+{n:'Blue',c:'#2980B9',r:'Complete 3 adventures',t:'a3'},
+{n:'Red',c:'#C0392B',r:'Complete 5 adventures',t:'a5'},
+{n:'Brown',c:'#795548',r:'All required adventures done',t:'ar'},
+{n:'Black',c:'#1A1A1A',r:'BEAR BADGE EARNED!',t:'bear'}
+];
+
+// ===== STATE MANAGEMENT =====
+function gs(rank){try{var key=rank==='wolf'?'wp101_wolf':'wp101_bear';return JSON.parse(localStorage.getItem(key))||{}}catch(e){return {}}}
+function ss(rank,s){try{var key=rank==='wolf'?'wp101_wolf':'wp101_bear';localStorage.setItem(key,JSON.stringify(s))}catch(e){}}
+function getADV(){return currentRank==='wolf'?WOLF_ADV:BEAR_ADV}
+function getBELTS(){return currentRank==='wolf'?WOLF_BELTS:BEAR_BELTS}
+
+function tR(a,i){var s=gs(currentRank);if(!s[a])s[a]={};s[a][i]=!s[a][i];ss(currentRank,s);updateUI()}
+function isD(a){var s=gs(currentRank),x=s[a.id]||{};return a.reqs.every(function(_,i){return x[i]})}
+
+// ===== RANK SWITCHING =====
+function switchRank(rank){
+  currentRank=rank;
+  var dash=document.getElementById('progressDash');
+  var bw=document.getElementById('btnWolf');
+  var bb=document.getElementById('btnBear');
+  var advPanel=document.getElementById('tab-adventures');
+  
+  if(rank==='wolf'){
+    bw.className='rank-btn active-wolf';bb.className='rank-btn';
+    dash.className='progress-dash wolf-theme';
+    document.getElementById('progressTitle').innerHTML='🎯 Wolf Rank Progress';
+    document.getElementById('rankIconMain').textContent='🐺';
+    document.getElementById('rankLabel').textContent='Wolf Badge';
+    document.getElementById('officialLink').onclick=function(){window.open('https://www.scouting.org/programs/cub-scouts/adventures/wolf/','_blank')};
+    document.getElementById('officialLink').textContent='🔗 Official Wolf Adventures';
+    advPanel.className='tab-panel active wolf-theme';
+    document.getElementById('reqTitle').innerHTML='⭐ Required Wolf Adventures (All 6)';
+    document.getElementById('electTitle').innerHTML='🎒 Wolf Elective Adventures (At Least 2)';
+  } else {
+    bb.className='rank-btn active-bear';bw.className='rank-btn';
+    dash.className='progress-dash';
+    document.getElementById('progressTitle').innerHTML='🎯 Bear Rank Progress';
+    document.getElementById('rankIconMain').textContent='🐻';
+    document.getElementById('rankLabel').textContent='Bear Badge';
+    document.getElementById('officialLink').onclick=function(){window.open('https://www.scouting.org/programs/cub-scouts/adventures/bear/','_blank')};
+    document.getElementById('officialLink').textContent='🔗 Official Bear Adventures';
+    advPanel.className='tab-panel active';
+    document.getElementById('reqTitle').innerHTML='⭐ Required Bear Adventures (All 6)';
+    document.getElementById('electTitle').innerHTML='🎒 Bear Elective Adventures (At Least 2)';
+  }
+  updateUI();
+}
+
+// ===== RENDER =====
+function rAdvs(){var A=getADV();rL('rA',A.required);rL('eA',A.elective);rL('sA',A.special)}
+function rL(c,as){document.getElementById(c).innerHTML=as.map(function(a){var d=isD(a),s=gs(currentRank),x=s[a.id]||{},dc=a.reqs.filter(function(_,i){return x[i]}).length;
+return '<div class="ac'+(d?' done':'')+'" id="c-'+a.id+'"><div class="ah" onclick="tE(\''+a.id+'\')"><div class="ai">'+a.icon+'</div><div class="af"><div class="an">'+a.name+'</div><div class="at">'+a.type+' • '+dc+'/'+a.reqs.length+'</div></div><div class="ack" onclick="event.stopPropagation();mD(\''+a.id+'\')">'+(d?'✓':'')+'</div><div class="achev">▼</div></div><div class="ab"><div class="ad">'+a.desc+'</div><ul class="rl">'+a.reqs.map(function(r,i){var ch=x[i];return '<li class="ri"><div class="rc'+(ch?' ck':'')+'" onclick="tR(\''+a.id+'\','+i+')">'+(ch?'✓':'')+'</div><span class="rt'+(ch?' dn':'')+'">'+r+'</span></li>'}).join('')+'</ul>'+(a.fun?'<div class="fi"><h4>💡 Wolfpack Ideas</h4><p>'+a.fun+'</p></div>':'')+'</div></div>'}).join('')}
+
+function rSafety(){document.getElementById('safeC').innerHTML=SAFETY.map(function(s){return '<div class="sc"><h4>🔴 '+s.t+'</h4><p>'+s.d+'</p><a class="sl" href="'+s.l+'" target="_blank">Full Guidelines →</a></div>'}).join('')}
+
+function rBelts(){
+  var A=getADV(),B=getBELTS(),s=gs(currentRank);
+  var tr=cR(s),ta=cA(),ar=A.required.every(function(a){return isD(a)});
+  var electDone=A.elective.filter(function(a){return isD(a)}).length+A.special.filter(function(a){return isD(a)}).length;
+  var badgeEarned=ar&&electDone>=2;
+  
+  document.getElementById('bD').innerHTML=B.map(function(b){
+    var e=false;
+    if(typeof b.t==='number')e=tr>=b.t;
+    else if(b.t==='a1')e=ta>=1;
+    else if(b.t==='a3')e=ta>=3;
+    else if(b.t==='a5')e=ta>=5;
+    else if(b.t==='ar')e=ar;
+    else if(b.t==='wolf'||b.t==='bear')e=badgeEarned;
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px;margin-bottom:6px;background:'+(e?'rgba(39,174,96,0.08)':'rgba(255,255,255,0.02)')+';border:1px solid '+(e?'var(--green)':'rgba(255,255,255,0.05)')+';border-radius:10px"><div style="width:46px;height:14px;border-radius:7px;background:'+b.c+';border:1px solid rgba(255,255,255,0.2);'+(e?'box-shadow:0 0 10px '+b.c+'40':'opacity:0.3')+';flex-shrink:0"></div><div style="flex:1"><div style="font-family:Oswald,sans-serif;font-size:.85em;color:'+(e?'var(--gold)':'rgba(255,248,231,0.4)')+'">'+b.n+' Belt</div><div style="font-size:.65em;color:rgba(255,248,231,0.4)">'+b.r+'</div></div><div style="font-size:1.1em">'+(e?'✅':'🔒')+'</div></div>'
+  }).join('');
+  
+  var ac=[];
+  var emoji=currentRank==='wolf'?'🐺':'🐻';
+  if(tr>=1)ac.push('🌟 First Requirement!');
+  if(ta>=1)ac.push('🏕️ First Adventure!');
+  if(ta>=3)ac.push('🔥 Three Down!');
+  if(ta>=5)ac.push('⚡ Five Adventures!');
+  if(ar)ac.push('🎖️ All Required Done!');
+  if(badgeEarned)ac.push(emoji+' '+currentRank.toUpperCase()+' BADGE EARNED!');
+  document.getElementById('achL').innerHTML=ac.length?ac.map(function(a){return '<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">'+a+'</div>'}).join(''):'<p style="opacity:.5">Complete adventures to unlock!</p>';
+}
+
+function cR(s){var c=0;for(var a in s)for(var r in s[a])if(s[a][r])c++;return c}
+function cA(){var A=getADV();return[].concat(A.required,A.elective,A.special).filter(function(a){return isD(a)}).length}
+
+function updateUI(){
+  rAdvs();rBelts();
+  var A=getADV(),s=gs(currentRank);
+  var rd=A.required.filter(function(a){return isD(a)}).length;
+  var ed=A.elective.filter(function(a){return isD(a)}).length+A.special.filter(function(a){return isD(a)}).length;
+  var electNeeded=currentRank==='wolf'?1:2;
+  var p=Math.min(100,Math.round(((Math.min(rd,6)+Math.min(ed,electNeeded))/(6+electNeeded))*100));
+  document.getElementById('progressBar').style.width=p+'%';
+  document.getElementById('progressPct').textContent=p+'%';
+  document.getElementById('sR').textContent=rd+'/6';
+  document.getElementById('sE').textContent=Math.min(ed,electNeeded)+'/'+electNeeded;
+  document.getElementById('sT').textContent=cA();
+  document.getElementById('sQ').textContent=cR(gs(currentRank));
+  
+  // Completed log
+  var d=[].concat(A.required,A.elective,A.special).filter(function(a){return isD(a)});
+  document.getElementById('cLog').innerHTML=d.length?d.map(function(a){return '<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)">✅ '+a.icon+' '+a.name+'</div>'}).join(''):'<p style="opacity:.5">None yet. Get out there!</p>';
+}
+
+// ===== INTERACTIONS =====
+function tE(id){document.getElementById('c-'+id).classList.toggle('exp')}
+function mD(id){var A=getADV();var all=[].concat(A.required,A.elective,A.special);var a=all.find(function(x){return x.id===id});if(!a)return;var s=gs(currentRank);if(!s[id])s[id]={};var d=a.reqs.every(function(_,i){return s[id][i]});a.reqs.forEach(function(_,i){s[id][i]=!d});ss(currentRank,s);updateUI()}
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active')})});
+
+// Joke
+function ldJ(){var j=JOKES[Math.floor(Math.random()*JOKES.length)];document.getElementById('jQ').textContent=j.q;document.getElementById('jA').textContent=j.a;document.getElementById('jA').style.display='none';document.getElementById('jBtn').style.display=''}
+function rvJ(){document.getElementById('jA').style.display='block';document.getElementById('jBtn').style.display='none'}
+
+// Modal
+function sM(t){var ti=document.getElementById('mT'),bo=document.getElementById('mB');
+if(t==='trivia'){var x=TRIVIA[Math.floor(Math.random()*TRIVIA.length)];ti.textContent='🧠 Scout Trivia';bo.innerHTML='<p><strong>'+x.q+'</strong></p><p style="color:var(--gold);font-family:Permanent Marker,cursive;font-size:1.1em;margin-top:10px">'+x.a+'</p>'}
+else if(t==='song'){ti.textContent='🔥 Campfire Song';bo.innerHTML='<p>'+SONGS[Math.floor(Math.random()*SONGS.length)]+'</p>'}
+else if(t==='cheer'){ti.textContent='📢 Scout Cheer';bo.innerHTML='<p>'+CHEERS[Math.floor(Math.random()*CHEERS.length)]+'</p>'}
+else if(t==='nature'){ti.textContent='🌵 AZ Nature Fact';bo.innerHTML='<p>'+NFACTS[Math.floor(Math.random()*NFACTS.length)]+'</p>'}
+else if(t==='meeting'){ti.textContent='📝 Den Meeting Plan';bo.innerHTML='<div style="text-align:left;font-size:.82em;line-height:1.8"><strong>Opening (5 min):</strong> Flag + Oath & Law<br><strong>Activity 1 (15 min):</strong> Adventure requirement<br><strong>Game (10 min):</strong> Related active game<br><strong>Activity 2 (15 min):</strong> Continue/craft<br><strong>Closing (5 min):</strong> Announcements + handshake<br><br><strong>Total: ~50 min</strong></div>'}
+document.getElementById('modO').classList.add('open')}
+function cM(){document.getElementById('modO').classList.remove('open')}
+
+// Export
+function expProg(){
+  var A=getADV(),s=gs(currentRank);
+  var rn=currentRank.toUpperCase();
+  var l=['WOLFPACK 101 — '+rn+' RANK PROGRESS','Pack 101 • Gilbert, AZ','========================================',''];
+  [].concat(A.required,A.elective,A.special).forEach(function(a){var x=s[a.id]||{},d=a.reqs.filter(function(_,i){return x[i]}).length;l.push((d===a.reqs.length?'✅':'⬜')+' '+a.name+' ('+d+'/'+a.reqs.length+')');a.reqs.forEach(function(r,i){l.push('  '+(x[i]?'☑':'☐')+' '+r)});l.push('')});
+  var b=new Blob([l.join('\n')],{type:'text/plain'}),e=document.createElement('a');e.href=URL.createObjectURL(b);e.download='wolfpack101-'+currentRank+'-progress.txt';e.click()}
+function rstProg(){var rn=currentRank.charAt(0).toUpperCase()+currentRank.slice(1);if(confirm('Reset ALL '+rn+' progress?')&&confirm('REALLY sure?')){try{localStorage.removeItem(currentRank==='wolf'?'wp101_wolf':'wp101_bear')}catch(e){}updateUI()}}
+
+function initApp(){rSafety();switchRank('wolf');ldJ()}
+</script>
+</body>
+</html>
